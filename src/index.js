@@ -1,3 +1,6 @@
+import AgentApi from "apminsight";
+AgentApi.config();
+
 import express from "express";
 import matchRouter from "./routes/matches.js";
 import http from "node:http";
@@ -15,12 +18,13 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.use(securityMiddleware())
+app.use(securityMiddleware());
 
 app.use("/matches", matchRouter);
 app.use("/matches/:id/commentary", commentaryRouter);
 
-const { broadcastMatchCreated, broadcastCommentary } = attachWebSocketServer(server);
+const { broadcastMatchCreated, broadcastCommentary } =
+  attachWebSocketServer(server);
 app.locals.broadcastMatchCreated = broadcastMatchCreated;
 app.locals.broadcastCommentary = broadcastCommentary;
 
